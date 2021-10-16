@@ -21,6 +21,12 @@ mypy:
 test:
 	$(PYTHON) -m pytest $(options)
 
+test-cov:
+	$(PYTHON) -m pytest --cov=src $(options)
+
+test-cov-view:
+	$(PYTHON) -m http.server -d htmlcov
+
 safety:
 	poetry export --dev | $(SAFETY) check --stdin
 

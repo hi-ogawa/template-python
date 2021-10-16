@@ -105,4 +105,4 @@ jobs:
         key: v1-venv-${{ hashFiles('poetry.lock') }}
     - if: steps.cache-venv.outputs.cache-hit != 'true'
       run: poetry install
-    - run: make test
+    - run: make test-cov

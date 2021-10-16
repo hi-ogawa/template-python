@@ -18,6 +18,7 @@ black = "^21.9b0"
 isort = "^5.9.3"
 pytest = "^6.2.5"
 pytest-sugar = "^0.9.4"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -37,5 +38,9 @@ disable = ["C", "R", "fixme"]
 strict = true
 show_error_codes = true
 
-[tool.pytest]
+[tool.pytest.ini_options]
+addopts = [
+  "--cov-report=term",
+  "--cov-report=html",
+]
 filterwarnings = ["error"]

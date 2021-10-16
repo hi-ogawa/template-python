@@ -69,4 +69,4 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       -  #@ template.replace(setup_steps())
-      - run: make test
+      - run: make test-cov
