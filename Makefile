@@ -2,6 +2,7 @@ SHELL := /bin/bash
 PYTHON ?= poetry run python
 YTT ?= docker run --rm -i gerritk/ytt:v0.35.1
 PRETTIER ?= docker run --rm -v $(PWD):/work tmknom/prettier:2.0.5
+SAFETY ?= docker run -i --rm pyupio/safety:latest safety
 
 lint:
 	$(PYTHON) -m black .
@@ -19,6 +20,9 @@ mypy:
 
 test:
 	$(PYTHON) -m pytest $(options)
+
+safety:
+	poetry export --dev | $(SAFETY) check --stdin
 
 ytt:
 	$(YTT) -f - < .github/workflows-ytt/ci.yml > .github/workflows/ci.yml

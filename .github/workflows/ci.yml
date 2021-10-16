@@ -7,6 +7,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: make ytt-check
+  safety:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - run: make safety
   setup:
     runs-on: ubuntu-20.04
     steps:

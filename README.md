@@ -6,6 +6,7 @@
 - black
 - isort
 - pylint
+- safety
 - github actions
 
 ```
