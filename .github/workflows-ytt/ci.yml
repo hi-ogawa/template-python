@@ -1,0 +1,66 @@
+#@ def setup_steps():
+
+- uses: actions/checkout@v2
+- uses: actions/setup-python@v2
+  with:
+    python-version: "3.9"
+
+#! Setup poetry with cache
+- uses: actions/cache@v2
+  id: cache-poetry
+  with:
+    path: /home/runner/.poetry
+    key: v4-poetry
+- if: steps.cache-poetry.outputs.cache-hit != 'true'
+  run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+- run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+
+#! Install dependencies with cache
+- uses: actions/cache@v2
+  id: cache-venv
+  with:
+    path: .venv
+    key: v1-venv-${{ hashFiles('poetry.lock') }}
+- if: steps.cache-venv.outputs.cache-hit != 'true'
+  run: poetry install
+
+#@ end
+
+---
+#@ load("@ytt:template", "template")
+
+name: CI
+"on":
+  - push
+jobs:
+  ytt-check:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - run: make ytt-check
+
+  setup:
+    runs-on: ubuntu-20.04
+    steps:
+      -  #@ template.replace(setup_steps())
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-20.04
+    steps:
+      -  #@ template.replace(setup_steps())
+      - run: make lint-check
+
+  mypy:
+    needs: setup
+    runs-on: ubuntu-20.04
+    steps:
+      -  #@ template.replace(setup_steps())
+      - run: make mypy
+
+  test:
+    needs: setup
+    runs-on: ubuntu-20.04
+    steps:
+      -  #@ template.replace(setup_steps())
+      - run: make test
