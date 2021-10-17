@@ -8,8 +8,9 @@
 - pylint
 - safety
 - github actions
+- vscode debugger
 
-```
+```sh
 poetry install
 make lint
 make mypy

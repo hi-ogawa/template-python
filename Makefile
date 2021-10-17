@@ -21,6 +21,10 @@ mypy:
 test:
 	$(PYTHON) -m pytest $(options)
 
+# Hit F5 in vscode after `make test-debugpy`
+test-debugpy:
+	$(PYTHON) -m pytest -p tests.plugin_debugpy $(options)
+
 test-cov:
 	$(PYTHON) -m pytest --cov=src $(options)
 
